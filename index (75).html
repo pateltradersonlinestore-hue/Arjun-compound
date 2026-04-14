@@ -1,0 +1,584 @@
+```html
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Arjun Compound | Peak Evolution</title>
+    
+    <!-- प्रीमियम फोंट्स और आइकन्स -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- मार्कडाउन और मैथ इंजन -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked-katex-extension/lib/index.umd.js"></script>
+
+    <style>
+        /* --- एप्पल प्रीमियम थीम --- */
+        :root {
+            --apple-bg: #F5F5F7;
+            --pure-white: #FFFFFF;
+            --apple-black: #1D1D1F;
+            --apple-gray: #86868B;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(0, 0, 0, 0.06);
+            --shadow-soft: 0 10px 40px rgba(0, 0, 0, 0.08);
+            --danger-red: #FF3B30;
+            --success-green: #34C759;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+        
+        body { 
+            font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; 
+            background-color: var(--apple-bg); 
+            color: var(--apple-black); 
+            height: 100vh; 
+            width: 100vw;
+            display: flex; justify-content: center; align-items: center; 
+            overflow: hidden; 
+        }
+
+        /* --- टोस्ट नोटिफिकेशन्स --- */
+        #toast-container { position: absolute; top: 30px; left: 50%; transform: translateX(-50%); z-index: 10000; display: flex; flex-direction: column; gap: 10px; }
+        .toast { background: var(--apple-black); color: var(--pure-white); padding: 14px 28px; border-radius: 100px; font-size: 14px; font-weight: 600; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: slideDownFade 0.4s ease; display: flex; align-items: center; gap: 12px; }
+        @keyframes slideDownFade { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- मुख्य ऐप रैपर (100% STRICT FIXED LAYOUT) --- */
+        .app-wrapper { 
+            width: 96%; max-width: 1240px; height: 94vh; 
+            background: var(--glass-bg); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); 
+            border-radius: 36px; display: flex; flex-direction: column; 
+            border: 1px solid var(--glass-border); box-shadow: var(--shadow-soft); 
+            overflow: hidden; position: relative; 
+        }
+
+        #chat-section { display: flex; flex-direction: column; height: 100%; width: 100%; overflow: hidden; }
+
+        /* --- चैट हेडर --- */
+        header { 
+            flex-shrink: 0; padding: 20px 45px; border-bottom: 1px solid var(--glass-border); 
+            display: flex; justify-content: space-between; align-items: center; 
+            background: rgba(255,255,255,0.7); backdrop-filter: blur(10px); z-index: 10; 
+        }
+        .brand-box h1 { font-size: 26px; font-weight: 800; color: var(--apple-black); display: flex; align-items: center; gap: 12px; letter-spacing: -0.5px; }
+        .brand-box span { font-size: 11px; background: var(--apple-black); color: var(--pure-white); padding: 4px 10px; border-radius: 8px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; }
+        .header-actions { display: flex; align-items: center; gap: 15px; }
+        
+        .action-btn { background: var(--pure-white); border: 1px solid var(--glass-border); color: var(--apple-black); padding: 10px 20px; border-radius: 14px; cursor: pointer; font-size: 14px; font-weight: 700; transition: 0.2s; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+        .action-btn:hover { background: #FEE2E2; border-color: var(--danger-red); color: var(--danger-red); transform: translateY(-1px); }
+        .login-head-btn { background: var(--apple-black); color: var(--pure-white); }
+        .login-head-btn:hover { background: #333; color: var(--pure-white); border-color: transparent; }
+
+        /* --- चैट विंडो (केवल यह हिस्सा स्क्रोल होगा) --- */
+        #chat-window { 
+            flex: 1 1 auto; padding: 40px 60px; overflow-y: auto; 
+            display: flex; flex-direction: column; gap: 30px; scroll-behavior: smooth; 
+        }
+        
+        .message { max-width: 85%; padding: 22px 28px; border-radius: 28px; font-size: 16px; line-height: 1.6; animation: slideUpMsg 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); word-wrap: break-word; }
+        @keyframes slideUpMsg { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .user-msg { align-self: flex-end; background: var(--apple-black); color: var(--pure-white); border-bottom-right-radius: 6px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+        .arjun-msg { align-self: flex-start; background: var(--pure-white); color: var(--apple-black); border-bottom-left-radius: 6px; width: 100%; border: 1px solid var(--glass-border); box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+
+        /* --- पूर्ण मार्कडाउन और मैथ स्टाइल्स (Missing Features Restored) --- */
+        .arjun-msg p { margin-bottom: 16px; }
+        .arjun-msg p:last-child { margin-bottom: 0; }
+        .arjun-msg strong { font-weight: 800; color: var(--apple-black); }
+        .arjun-msg ul, .arjun-msg ol { margin-left: 25px; margin-bottom: 16px; padding-left: 10px; }
+        .arjun-msg li { margin-bottom: 8px; }
+        .arjun-msg blockquote { border-left: 4px solid var(--apple-gray); padding-left: 16px; font-style: italic; color: #555; margin: 16px 0; background: rgba(0,0,0,0.02); padding-top: 10px; padding-bottom: 10px; border-radius: 0 8px 8px 0; }
+        
+        /* टेबल्स */
+        .arjun-msg table { width: 100%; border-collapse: collapse; margin: 20px 0; border: 1px solid var(--glass-border); border-radius: 12px; overflow: hidden; font-size: 15px; }
+        .arjun-msg th, .arjun-msg td { padding: 14px 16px; border: 1px solid var(--glass-border); text-align: left; }
+        .arjun-msg th { background: rgba(0,0,0,0.04); font-weight: 700; text-transform: uppercase; font-size: 13px; color: var(--apple-black); }
+        .arjun-msg tr:nth-child(even) { background-color: rgba(0,0,0,0.01); }
+
+        /* मैक-स्टाइल कोड बॉक्स */
+        .code-container { background: #1A1A1A; border-radius: 18px; margin: 24px 0; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.2); }
+        .code-header { display: flex; justify-content: space-between; align-items: center; background: #2D2D2D; padding: 12px 20px; border-bottom: 1px solid #404040; }
+        .mac-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+        .copy-btn { background: rgba(255,255,255,0.1); border: none; color: var(--pure-white); padding: 6px 14px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 600; transition: 0.2s; }
+        .copy-btn:hover { background: var(--pure-white); color: var(--apple-black); }
+        .code-container pre { padding: 20px; overflow-x: auto; margin: 0; color: #E5E5EA; }
+        .code-container code { font-family: 'Fira Code', monospace; font-size: 14px; }
+        .arjun-msg p code { background: rgba(0,0,0,0.05); color: var(--danger-red); padding: 3px 6px; border-radius: 6px; font-family: 'Fira Code', monospace; font-size: 14px; }
+        .katex-display { background: rgba(0,0,0,0.02); padding: 16px; border-radius: 12px; margin: 16px 0; overflow-x: auto; }
+
+        /* --- इनपुट एरिया (100% FIXED AT BOTTOM) --- */
+        .input-wrapper { 
+            flex-shrink: 0; padding: 25px 60px; background: rgba(255,255,255,0.85); 
+            backdrop-filter: blur(20px); border-top: 1px solid var(--glass-border); 
+            display: flex; gap: 16px; align-items: flex-end; z-index: 10; 
+        }
+        
+        textarea { flex: 1; padding: 18px 24px; border-radius: 24px; border: 1px solid var(--glass-border); background: var(--pure-white); font-size: 16px; outline: none; resize: none; min-height: 64px; max-height: 150px; transition: 0.2s; line-height: 1.5; box-shadow: 0 2px 15px rgba(0,0,0,0.02); }
+        textarea:focus { border-color: var(--apple-black); box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+        
+        .action-btn-circle { background: var(--apple-black); color: var(--pure-white); border: none; width: 64px; height: 64px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 20px; transition: 0.2s; flex-shrink: 0; box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+        .action-btn-circle:hover { transform: scale(1.05); }
+        .action-btn-circle:disabled { background: #D2D2D7; cursor: not-allowed; transform: none; box-shadow: none; }
+        
+        /* लाल स्टॉप बटन */
+        .stop-btn { background: var(--danger-red); border-radius: 16px; display: none; }
+        .stop-btn:hover { background: #D32F2F; box-shadow: 0 8px 20px rgba(255, 59, 48, 0.3); }
+
+        /* --- मोडल ओवरलेज़ (Auth & Delete) --- */
+        .modal-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.85); backdrop-filter: blur(20px); z-index: 5000; display: none; justify-content: center; align-items: center; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .modal-card { background: var(--pure-white); padding: 45px; border-radius: 36px; width: 100%; max-width: 480px; border: 1px solid var(--glass-border); box-shadow: 0 30px 60px rgba(0,0,0,0.1); position: relative; display: flex; flex-direction: column; overflow: hidden; }
+        .auth-card { min-height: 450px; } /* Auth card specific height */
+        
+        .close-modal { position: absolute; top: 24px; right: 24px; background: none; border: none; font-size: 22px; color: var(--apple-gray); cursor: pointer; transition: 0.2s; }
+        .close-modal:hover { color: var(--apple-black); transform: rotate(90deg); }
+
+        /* Auth Specifics */
+        .auth-header { text-align: center; margin-bottom: 30px; transition: 0.3s; }
+        .auth-header h2 { font-size: 32px; font-weight: 800; color: var(--apple-black); letter-spacing: -0.5px; }
+        .auth-header p { font-size: 15px; color: var(--apple-gray); margin-top: 6px; font-weight: 600; }
+
+        .auth-tabs { display: flex; margin-bottom: 30px; background: rgba(0,0,0,0.04); padding: 6px; border-radius: 16px; }
+        .auth-tab { flex: 1; padding: 12px; text-align: center; cursor: pointer; border-radius: 12px; font-size: 15px; font-weight: 700; color: var(--apple-gray); transition: 0.3s; }
+        .auth-tab.active { background: var(--pure-white); color: var(--apple-black); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+
+        .form-container { flex: 1; position: relative; }
+        .reg-step { display: none !important; flex-direction: column; justify-content: center; height: 100%; animation: slideIn 0.3s ease-out; }
+        .reg-step.active { display: flex !important; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+
+        .step-title { font-size: 22px; font-weight: 800; margin-bottom: 20px; color: var(--apple-black); text-align: center; }
+        .input-group { margin-bottom: 16px; position: relative; }
+        .input-group i { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--apple-gray); }
+        .modal-card input { width: 100%; padding: 18px 20px 18px 48px; border: 1.5px solid var(--glass-border); border-radius: 16px; font-size: 16px; outline: none; background: #FAFAFA; transition: 0.3s; font-family: inherit; }
+        .modal-card input:focus { border-color: var(--apple-black); background: var(--pure-white); box-shadow: 0 4px 15px rgba(0,0,0,0.04); }
+        
+        .primary-btn { width: 100%; padding: 18px; background: var(--apple-black); color: var(--pure-white); border: none; border-radius: 16px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 10px; transition: 0.2s; }
+        .primary-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+        .secondary-btn { width: 100%; padding: 14px; background: transparent; color: var(--apple-gray); border: none; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 5px; transition: 0.2s; }
+        .secondary-btn:hover { color: var(--apple-black); }
+
+        .success-step { text-align: center; }
+        .success-step i { font-size: 64px; color: var(--success-green); margin-bottom: 20px; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .success-step h3 { color: var(--apple-black); font-size: 28px; font-weight: 800; }
+        @keyframes popIn { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+
+        /* --- कस्टम डिलीट मोडल --- */
+        .delete-content { text-align: center; }
+        .delete-content i { font-size: 50px; color: var(--danger-red); margin-bottom: 20px; }
+        .delete-content h3 { font-size: 24px; font-weight: 800; color: var(--apple-black); margin-bottom: 10px; }
+        .delete-content p { font-size: 15px; color: var(--apple-gray); margin-bottom: 25px; line-height: 1.5; }
+        .delete-actions { display: flex; gap: 15px; }
+
+        /* स्क्रॉलबार */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-thumb { background: #D2D2D7; border-radius: 10px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+    </style>
+</head>
+<body>
+
+    <div id="toast-container"></div>
+
+    <div class="app-wrapper">
+        
+        <!-- मुख्य चैट इंटरफ़ेस -->
+        <div id="chat-section">
+            <header>
+                <div class="brand-box"><h1>ARJUN <span>COMPOUND</span></h1></div>
+                <div class="header-actions" id="header-actions">
+                    <!-- Buttons injected via JS -->
+                </div>
+            </header>
+
+            <div id="chat-window"></div>
+
+            <div class="input-wrapper">
+                <textarea id="userInput" placeholder="Ask Arjun Compound... (Shift + Enter for new line)" rows="1"></textarea>
+                <button class="action-btn-circle" id="sendBtn" onclick="sendChat()"><i class="fa-solid fa-arrow-up"></i></button>
+                <button class="action-btn-circle stop-btn" id="stopBtn" onclick="stopChat()"><i class="fa-solid fa-square"></i></button>
+            </div>
+        </div>
+
+        <!-- ऑथेंटिकेशन मोडल -->
+        <div id="auth-modal" class="modal-overlay">
+            <div class="modal-card auth-card">
+                <button class="close-modal" onclick="closeAuthModal()"><i class="fa-solid fa-xmark"></i></button>
+                <div class="auth-header" id="auth-header-container">
+                    <h2>Arjun Compound</h2>
+                    <p id="auth-subtitle">Developed by Abhay Kumar</p>
+                </div>
+                
+                <div class="auth-tabs" id="auth-tabs-container">
+                    <div class="auth-tab active" id="tab-login" onclick="switchTab('login')">Login</div>
+                    <div class="auth-tab" id="tab-register" onclick="switchTab('register')">Register</div>
+                </div>
+
+                <!-- 6-LAYER REGISTRATION -->
+                <div id="form-register" class="form-container" style="display: none;">
+                    <div class="reg-step active" id="step-1">
+                        <div class="step-title">What's your full name?</div>
+                        <div class="input-group"><i class="fa-solid fa-user"></i><input type="text" id="regName" placeholder="Full Name"></div>
+                        <button class="primary-btn" onclick="nextStep(1)">Continue</button>
+                    </div>
+                    <div class="reg-step" id="step-2">
+                        <div class="step-title">What's your email?</div>
+                        <div class="input-group"><i class="fa-solid fa-envelope"></i><input type="email" id="regEmail" placeholder="Email Address"></div>
+                        <button class="primary-btn" onclick="nextStep(2)">Continue</button>
+                        <button class="secondary-btn" onclick="prevStep(2)">Back</button>
+                    </div>
+                    <div class="reg-step" id="step-3">
+                        <div class="step-title">Your phone number?</div>
+                        <div class="input-group"><i class="fa-solid fa-phone"></i><input type="number" id="regPhone" placeholder="Phone Number"></div>
+                        <button class="primary-btn" onclick="nextStep(3)">Continue</button>
+                        <button class="secondary-btn" onclick="prevStep(3)">Back</button>
+                    </div>
+                    <div class="reg-step" id="step-4">
+                        <div class="step-title">Your organization?</div>
+                        <div class="input-group"><i class="fa-solid fa-building"></i><input type="text" id="regOrg" placeholder="Organization"></div>
+                        <button class="primary-btn" id="btn-reg-otp" onclick="handleAuth('register_send_otp')">Send Verification OTP</button>
+                        <button class="secondary-btn" onclick="prevStep(4)">Back</button>
+                    </div>
+                    <div class="reg-step" id="step-5">
+                        <div class="step-title">Verify Yourself</div>
+                        <div class="input-group"><i class="fa-solid fa-shield-halved"></i><input type="number" id="valRegOTP" placeholder="Enter 6-digit OTP"></div>
+                        <button class="primary-btn" id="btn-reg-verify" onclick="handleAuth('register_verify')">Create Account</button>
+                        <button class="secondary-btn" onclick="prevStep(5)">Back</button>
+                    </div>
+                    <div class="reg-step" id="step-6">
+                        <div class="success-step"><i class="fa-solid fa-circle-check"></i><h3>Success</h3></div>
+                    </div>
+                </div>
+
+                <!-- 2-LAYER LOGIN -->
+                <div id="form-login" class="form-container">
+                    <div class="reg-step active" id="login-step-1">
+                        <div class="step-title">Welcome Back</div>
+                        <div class="input-group"><i class="fa-solid fa-envelope"></i><input type="email" id="loginEmail" placeholder="Registered Email"></div>
+                        <button class="primary-btn" id="btn-login-otp" onclick="handleAuth('login_send_otp')">Get Login OTP</button>
+                    </div>
+                    <div class="reg-step" id="login-step-2">
+                        <div class="step-title">Secure Login</div>
+                        <div class="input-group"><i class="fa-solid fa-key"></i><input type="number" id="valLoginOTP" placeholder="Enter OTP"></div>
+                        <button class="primary-btn" id="btn-login-verify" onclick="handleAuth('login_verify')">Access Network</button>
+                        <button class="secondary-btn" onclick="document.getElementById('login-step-2').classList.remove('active'); document.getElementById('login-step-1').classList.add('active');">Back</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- कस्टम डिलीट मोडल (Custom Delete Prompt) -->
+        <div id="delete-modal" class="modal-overlay">
+            <div class="modal-card">
+                <button class="close-modal" onclick="closeDeleteModal()"><i class="fa-solid fa-xmark"></i></button>
+                <div class="delete-content">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <h3>Clear History?</h3>
+                    <p>Are you sure you want to permanently delete all your secure chat history? This action will instantly refresh the session.</p>
+                    <div class="delete-actions">
+                        <button class="secondary-btn" onclick="closeDeleteModal()" style="margin-top:0;">Cancel</button>
+                        <button class="primary-btn" id="confirmDeleteBtn" onclick="confirmPurgeHistory()" style="background: var(--danger-red); margin-top:0;">Yes, Purge Data</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- 1. कॉन्फ़िगरेशन ---
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbzTsXGoVh97JjtFAAG825GF4WUZqf7FDB3Zbxyf0nrLXt_1HjJSSqA829UcdoamRPvg0A/exec";
+        const WORKER_URL = "https://super-dawn-eddc.div665742.workers.dev/";
+        
+        let currentUser = localStorage.getItem('arjun_user');
+        let sessionHistory = []; 
+        let guestChatsCount = parseInt(localStorage.getItem('guest_count') || '0');
+        let abortController = null;
+
+        // --- 2. यूटिलिटी फंक्शन्स ---
+        function showToast(msg) {
+            const container = document.getElementById('toast-container');
+            const t = document.createElement('div'); t.className = 'toast';
+            t.innerHTML = `<i class="fa-solid fa-circle-info"></i> ${msg}`;
+            container.appendChild(t); setTimeout(() => t.remove(), 3000);
+        }
+
+        // --- 3. ऑथेंटिकेशन लॉजिक ---
+        function openAuthModal(msg = "Developed by Abhay Kumar") {
+            document.getElementById('auth-subtitle').innerText = msg;
+            document.getElementById('auth-modal').style.display = 'flex';
+            document.getElementById('auth-header-container').style.display = 'block';
+            document.getElementById('auth-tabs-container').style.display = 'flex';
+            document.getElementById('step-6').classList.remove('active');
+            document.getElementById('step-1').classList.add('active');
+        }
+        function closeAuthModal() { document.getElementById('auth-modal').style.display = 'none'; }
+
+        function switchTab(t) {
+            document.querySelectorAll('.auth-tab').forEach(x => x.classList.remove('active'));
+            document.getElementById(`tab-${t}`).classList.add('active');
+            document.getElementById('form-login').style.display = t === 'login' ? 'block' : 'none';
+            document.getElementById('form-register').style.display = t === 'register' ? 'block' : 'none';
+        }
+
+        function nextStep(current) {
+            if(current === 1 && !document.getElementById('regName').value.trim()) return showToast("Name is mandatory.");
+            if(current === 2 && !document.getElementById('regEmail').value.trim()) return showToast("Email is mandatory.");
+            if(current === 3 && !document.getElementById('regPhone').value.trim()) return showToast("Phone is mandatory.");
+            document.getElementById(`step-${current}`).classList.remove('active');
+            document.getElementById(`step-${current + 1}`).classList.add('active');
+        }
+        function prevStep(current) {
+            document.getElementById(`step-${current}`).classList.remove('active');
+            document.getElementById(`step-${current - 1}`).classList.add('active');
+        }
+
+        async function handleAuth(action) {
+            let payload = { action }; let btnId = '';
+            if (action === 'register_send_otp') {
+                payload.name = document.getElementById('regName').value.trim(); payload.phone = document.getElementById('regPhone').value.trim();
+                payload.email = document.getElementById('regEmail').value.trim(); payload.organization = document.getElementById('regOrg').value.trim();
+                if(!payload.organization) return showToast("Organization is mandatory."); btnId = 'btn-reg-otp';
+            } else if (action === 'login_send_otp') {
+                payload.email = document.getElementById('loginEmail').value.trim();
+                if(!payload.email) return showToast("Enter email first."); btnId = 'btn-login-otp';
+            } else if (action === 'register_verify' || action === 'login_verify') {
+                payload.email = document.getElementById(action === 'register_verify' ? 'regEmail' : 'loginEmail').value.trim();
+                payload.otp = document.getElementById(action === 'register_verify' ? 'valRegOTP' : 'valLoginOTP').value.trim();
+                if(!payload.otp) return showToast("Enter OTP!"); btnId = action === 'register_verify' ? 'btn-reg-verify' : 'btn-login-verify';
+            }
+
+            const btn = document.getElementById(btnId); const originalText = btn.innerHTML;
+            btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+
+            try {
+                const res = await fetch(GAS_URL, { method: 'POST', body: JSON.stringify(payload) });
+                const data = await res.json();
+                btn.disabled = false; btn.innerHTML = originalText;
+
+                if (data.status === 'success') {
+                    showToast(data.message);
+                    if (action === 'register_send_otp') nextStep(4);
+                    else if (action === 'login_send_otp') {
+                        document.getElementById('login-step-1').classList.remove('active');
+                        document.getElementById('login-step-2').classList.add('active');
+                    } else if (action === 'register_verify') {
+                        document.getElementById('auth-header-container').style.display = 'none';
+                        document.getElementById('auth-tabs-container').style.display = 'none';
+                        document.getElementById('step-5').classList.remove('active');
+                        document.getElementById('step-6').classList.add('active'); 
+                        setTimeout(() => { currentUser = payload.email; localStorage.setItem('arjun_user', currentUser); closeAuthModal(); updateHeader(); loadHistory(); }, 2000);
+                    } else if (action === 'login_verify') {
+                        currentUser = payload.email; localStorage.setItem('arjun_user', currentUser); closeAuthModal(); updateHeader(); loadHistory();
+                    }
+                } else showToast(data.message);
+            } catch (e) { showToast("Network Error."); btn.disabled = false; btn.innerHTML = originalText; }
+        }
+
+        function logout() { localStorage.removeItem('arjun_user'); location.reload(); }
+
+        // --- 4. इनिशियलाइजेशन ---
+        window.onload = () => {
+            updateHeader();
+            if (currentUser) { loadHistory(); } 
+            else { 
+                const welcome = `**नमस्ते दिव्य जी!** I am Arjun Compound.\n\nDeveloped by **Abhay Kumar**, I am your peak support system. You are in **Guest Mode** (${3 - guestChatsCount} questions remaining). Log in to unlock unlimited access.`;
+                renderMsg(welcome, 'arjun-msg', true);
+            }
+        };
+
+        function updateHeader() {
+            const h = document.getElementById('header-actions');
+            if(currentUser) {
+                h.innerHTML = `
+                    <span style="font-weight:700; font-size:13px; color:var(--apple-gray);"><i class="fa-solid fa-user-check"></i> ${currentUser}</span>
+                    <button class="action-btn" onclick="openDeleteModal()"><i class="fa-solid fa-trash"></i></button>
+                    <button class="action-btn" onclick="logout()"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+                `;
+            } else {
+                h.innerHTML = `<button class="action-btn login-head-btn" onclick="openAuthModal()"><i class="fa-solid fa-user-lock"></i> Login / Register</button>`;
+            }
+        }
+
+        async function loadHistory() {
+            const chatWin = document.getElementById('chat-window');
+            chatWin.innerHTML = '<div style="text-align:center; padding:20px; color:var(--apple-gray);"><i class="fa-solid fa-circle-notch fa-spin"></i> Syncing Secure Data...</div>';
+            try {
+                const res = await fetch(GAS_URL, { method: 'POST', body: JSON.stringify({ action: "get_history", email: currentUser }) });
+                const data = await res.json();
+                chatWin.innerHTML = '';
+                if (data.status === 'success' && data.historyJSON !== "[]") {
+                    sessionHistory = JSON.parse(data.historyJSON);
+                    sessionHistory.forEach(m => renderMsg(m.content, m.role === 'user' ? 'user-msg' : 'arjun-msg', m.role !== 'user'));
+                } else {
+                    const welcome = `**Hey brother!** I'm Arjun Compound. Secure environment verified for **${currentUser}**.\n\nDeveloped by **Abhay Kumar**, I am fully equipped with advanced math and code rendering. Let's begin.`;
+                    sessionHistory.push({role: 'arjun', content: welcome}); renderMsg(welcome, 'arjun-msg', true);
+                }
+            } catch(e) { chatWin.innerHTML = ''; renderMsg("Error loading history.", 'arjun-msg', false); }
+        }
+
+        // --- कस्टम डिलीट मोडल लॉजिक (Custom Delete Logic) ---
+        function openDeleteModal() { document.getElementById('delete-modal').style.display = 'flex'; }
+        function closeDeleteModal() { document.getElementById('delete-modal').style.display = 'none'; }
+
+        async function confirmPurgeHistory() {
+            const btn = document.getElementById('confirmDeleteBtn');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Purging Data...';
+            btn.disabled = true;
+            try {
+                await fetch(GAS_URL, { method: 'POST', body: JSON.stringify({ action: "delete_history", email: currentUser }) });
+                // पेज को तुरंत रिफ्रेश करना (Instant Refresh)
+                location.reload(); 
+            } catch(e) {
+                showToast("Error connecting to database.");
+                closeDeleteModal();
+                btn.innerHTML = 'Yes, Purge Data';
+                btn.disabled = false;
+            }
+        }
+
+        // --- 5. फुल-फीचर मार्कडाउन और मैथ इंजन (KaTeX + GFM) ---
+        const renderer = new marked.Renderer();
+        renderer.code = function(code, language) {
+            const valid = (language && hljs.getLanguage(language)) ? language : 'plaintext';
+            const highlighted = hljs.highlight(code, { language: valid }).value;
+            const safeCode = encodeURIComponent(code); 
+            return `<div class="code-container"><div class="code-header"><div><span class="mac-dot red"></span><span class="mac-dot yellow"></span><span class="mac-dot green"></span></div><button class="copy-btn" data-code="${safeCode}" onclick="copyC(this)">Copy Code</button></div><pre><code class="hljs ${valid}">${highlighted}</code></pre></div>`;
+        };
+        // breaks और gfm को true किया गया है ताकि टेबल्स और लिस्ट्स सही से काम करें
+        marked.use({ renderer, breaks: true, gfm: true }); 
+        marked.use(window.markedKatex({ throwOnError: false, displayMode: true }));
+
+        function copyC(btn) {
+            const code = decodeURIComponent(btn.getAttribute('data-code'));
+            navigator.clipboard.writeText(code).then(() => {
+                const ogText = btn.innerText; btn.innerText = "Copied!"; 
+                setTimeout(() => btn.innerText = ogText, 2000);
+            });
+        }
+
+        // --- 6. बुलेटप्रूफ स्ट्रीमिंग और ऑटो-स्क्रोल (ULTRA-FAST PARSER) ---
+        const chatWin = document.getElementById('chat-window');
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const stopBtn = document.getElementById('stopBtn');
+
+        userInput.addEventListener('input', function() { 
+            this.style.height = 'auto'; 
+            this.style.height = Math.min(this.scrollHeight, 200) + 'px'; 
+        });
+        userInput.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); } });
+
+        function renderMsg(txt, cls, isMD) {
+            const d = document.createElement('div'); d.className = `message ${cls}`;
+            d.innerHTML = isMD ? marked.parse(txt) : txt;
+            chatWin.appendChild(d);
+            chatWin.scrollTop = chatWin.scrollHeight; // ऑटो-स्क्रोल
+            return d;
+        }
+
+        function stopChat() {
+            if(abortController) { abortController.abort(); abortController = null; }
+            sendBtn.style.display = 'flex'; stopBtn.style.display = 'none'; userInput.disabled = false; userInput.focus();
+        }
+
+        async function sendChat() {
+            const p = userInput.value.trim();
+            if (!p) return;
+
+            // Guest Logic
+            if (!currentUser) {
+                if (guestChatsCount >= 3) { openAuthModal("Guest limit reached. Please Login or Register to continue."); return; }
+                guestChatsCount++; localStorage.setItem('guest_count', guestChatsCount.toString());
+            }
+
+            renderMsg(p, 'user-msg', false);
+            sessionHistory.push({role: 'user', content: p});
+            
+            userInput.value = ''; userInput.style.height = 'auto'; userInput.disabled = true;
+            sendBtn.style.display = 'none'; stopBtn.style.display = 'flex';
+            
+            const arjunDiv = renderMsg('Thinking...', 'arjun-msg', false);
+            let fullText = "";
+
+            abortController = new AbortController();
+
+            try {
+                // वर्कर को हिस्ट्री और प्रॉम्प्ट भेजना
+                const mappedHistory = sessionHistory.slice(0, -1).map(msg => ({
+                    role: msg.role === 'arjun' ? 'assistant' : 'user',
+                    content: msg.content
+                }));
+
+                const res = await fetch(WORKER_URL, { 
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt: p, history: mappedHistory }), signal: abortController.signal
+                });
+
+                if(!res.ok) throw new Error("Worker connection failed.");
+                
+                const reader = res.body.getReader();
+                const decoder = new TextDecoder();
+                let buffer = "";
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    
+                    buffer += decoder.decode(value, { stream: true });
+                    const lines = buffer.split('\n');
+                    buffer = lines.pop(); 
+
+                    for (let l of lines) {
+                        l = l.trim();
+                        if (!l) continue;
+                        
+                        // रॉ कमेंट्स को रोकें
+                        if (l.startsWith(':')) continue; 
+                        
+                        if (l.startsWith('data: ') && !l.includes('[DONE]')) {
+                            const payloadStr = l.slice(6).trim();
+                            if (payloadStr.startsWith('{')) {
+                                try {
+                                    const dataObj = JSON.parse(payloadStr);
+                                    const chunk = dataObj.choices[0]?.delta?.content || "";
+                                    if (chunk) {
+                                        fullText += chunk;
+                                        // डायरेक्ट रेंडरिंग और निरंतर स्क्रोलिंग
+                                        arjunDiv.innerHTML = marked.parse(fullText);
+                                        chatWin.scrollTop = chatWin.scrollHeight; 
+                                    }
+                                } catch (e) { /* Silently ignore broken JSON chunks */ }
+                            }
+                        }
+                    }
+                }
+                
+                if(currentUser) {
+                    sessionHistory.push({role: 'arjun', content: fullText});
+                    fetch(GAS_URL, { method: 'POST', body: JSON.stringify({ action: "save_history", email: currentUser, historyJSON: JSON.stringify(sessionHistory) }) });
+                }
+
+            } catch (e) { 
+                if(e.name === 'AbortError') arjunDiv.innerHTML += "<br><br><em>[Generation Stopped by User]</em>";
+                else arjunDiv.innerHTML = "<strong>Protocol Error:</strong> Connection Failed. Please check backend."; 
+            }
+            finally { 
+                sendBtn.style.display = 'flex'; stopBtn.style.display = 'none'; userInput.disabled = false; userInput.focus(); abortController = null; 
+                chatWin.scrollTop = chatWin.scrollHeight; 
+                if(!currentUser && guestChatsCount >= 3) setTimeout(() => openAuthModal("You've used your 3 free questions. Please Login to continue."), 1500);
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+```
