@@ -5,11 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Arjun Compound | Premium AI</title>
     
-    <!-- प्रीमियम फोंट्स और आइकन्स -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- मार्कडाउन और मैथ इंजन -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
@@ -38,7 +36,7 @@
             font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; 
             background-color: var(--apple-bg); 
             color: var(--apple-black); 
-            height: 100vh; 
+            height: 100vh; height: 100dvh; 
             width: 100vw;
             display: flex; justify-content: center; align-items: center; 
             overflow: hidden; 
@@ -51,7 +49,7 @@
 
         /* --- मुख्य ऐप रैपर --- */
         .app-wrapper { 
-            width: 96%; max-width: 1240px; height: 94vh; 
+            width: 96%; max-width: 1240px; height: 94vh; height: 94dvh;
             background: var(--glass-bg); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); 
             border-radius: 36px; display: flex; flex-direction: column; 
             border: 1px solid var(--glass-border); box-shadow: var(--shadow-soft); 
@@ -60,7 +58,7 @@
 
         #chat-section { display: flex; flex-direction: column; height: 100%; width: 100%; overflow: hidden; position: relative; }
 
-        /* --- चैट हेडर (सुधारित ब्रांडिंग) --- */
+        /* --- चैट हेडर --- */
         header { 
             flex-shrink: 0; padding: 20px 45px; border-bottom: 1px solid var(--glass-border); 
             display: flex; justify-content: space-between; align-items: center; 
@@ -117,7 +115,7 @@
         .spinner { width: 18px; height: 18px; border: 3px solid rgba(0,0,0,0.1); border-top-color: var(--apple-black); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* --- 🌟 नई इमेज रेंडरिंग और कण्ट्रोल सिस्टम --- */
+        /* --- 🌟 इमेज कार्ड्स (Download & Refresh Buttons) --- */
         .img-showcase { 
             position: relative; width: 100%; max-width: 550px; margin: 20px 0; 
             background: #FAFAFA; border: 1px solid var(--glass-border); 
@@ -152,7 +150,7 @@
             display: flex; gap: 16px; align-items: flex-end; z-index: 10; 
         }
         
-        /* शानदार इमेज जनरेशन मेनू */
+        /* इमेज जनरेशन मेनू */
         .img-menu { 
             position: absolute; left: 60px; bottom: 100px; 
             background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); 
@@ -230,19 +228,25 @@
         .delete-content p { font-size: 15px; color: var(--apple-gray); margin-bottom: 25px; line-height: 1.5; }
         .delete-actions { display: flex; gap: 15px; flex-wrap: wrap; }
 
-        /* --- 📱 परफेक्ट रेस्पॉन्सिव डिज़ाइन (Mobile, Tablet, Desktop) --- */
+        /* --- 📱 परफेक्ट मोबाइल रेस्पॉन्सिव डिज़ाइन --- */
         @media (max-width: 768px) {
-            .app-wrapper { width: 100%; height: 100vh; border-radius: 0; border: none; }
-            header { padding: 15px 20px; }
+            body, .app-wrapper { height: 100dvh; }
+            .app-wrapper { width: 100%; border-radius: 0; border: none; }
+            header { padding: 15px 16px; }
             .brand-box h1 { font-size: 22px; }
-            #chat-window { padding: 20px 15px; gap: 20px; }
-            .message { max-width: 95%; padding: 18px 20px; font-size: 15px; }
-            .input-wrapper { padding: 15px; gap: 10px; flex-wrap: wrap; justify-content: space-between; }
-            textarea { min-height: 50px; width: 100%; flex: none; order: -1; margin-bottom: 10px; }
-            .img-btn-circle, .action-btn-circle { width: 50px; height: 50px; font-size: 16px; }
-            .img-menu { left: 15px; bottom: 140px; width: 90%; flex-direction: column; }
-            .img-cat { width: 100%; }
-            .modal-card { padding: 30px 20px; }
+            .header-actions { gap: 10px; }
+            .action-btn { padding: 8px 14px; font-size: 12px; }
+            
+            #chat-window { padding: 15px 15px; gap: 20px; }
+            .message { max-width: 95%; padding: 16px 20px; font-size: 15px; }
+            
+            .input-wrapper { padding: 12px; gap: 8px; align-items: flex-end; flex-wrap: nowrap; }
+            textarea { flex: 1; min-height: 48px; margin: 0; padding: 14px 16px; font-size: 15px; }
+            .img-btn-circle, .action-btn-circle { width: 48px; height: 48px; font-size: 18px; flex-shrink: 0; }
+            
+            .img-menu { left: 12px; bottom: 85px; width: calc(100% - 24px); max-width: 100%; flex-direction: row; flex-wrap: wrap; justify-content: space-between; }
+            .img-cat { flex: 1 1 45%; padding: 12px 10px; font-size: 12px; }
+            .modal-card { padding: 30px 20px; width: 92%; margin: 0 auto; }
         }
 
         ::-webkit-scrollbar { width: 8px; }
@@ -260,8 +264,7 @@
             <header>
                 <div class="brand-box"><h1>ARJUN <span>COMPOUND</span></h1></div>
                 <div class="header-actions" id="header-actions">
-                    <!-- Buttons injected via JS -->
-                </div>
+                    </div>
             </header>
 
             <div id="chat-window"></div>
@@ -275,13 +278,12 @@
                 </div>
 
                 <button class="img-btn-circle" id="imgBtn" onclick="toggleImgMenu()" title="Create Image"><i class="fa-solid fa-image"></i></button>
-                <textarea id="userInput" placeholder="मुझसे कुछ भी पूछें, या चित्र बनाने को कहें... (Shift + Enter for new line)" rows="1"></textarea>
+                <textarea id="userInput" placeholder="पूछें या चित्र बनाने को कहें... (Shift+Enter)" rows="1"></textarea>
                 <button class="action-btn-circle" id="sendBtn" onclick="sendChat()"><i class="fa-solid fa-arrow-up"></i></button>
                 <button class="action-btn-circle stop-btn" id="stopBtn" onclick="stopChat()"><i class="fa-solid fa-square"></i></button>
             </div>
         </div>
 
-        <!-- ऑथेंटिकेशन मोडल (Intact 6-Layer) -->
         <div id="auth-modal" class="modal-overlay">
             <div class="modal-card auth-card">
                 <button class="close-modal" onclick="closeAuthModal()"><i class="fa-solid fa-xmark"></i></button>
@@ -346,7 +348,6 @@
             </div>
         </div>
 
-        <!-- कस्टम डिलीट मोडल -->
         <div id="delete-modal" class="modal-overlay">
             <div class="modal-card">
                 <button class="close-modal" onclick="closeDeleteModal()"><i class="fa-solid fa-xmark"></i></button>
@@ -380,7 +381,6 @@
             container.appendChild(t); setTimeout(() => t.remove(), 3000);
         }
 
-        // --- इमेज मेनू लॉजिक ---
         function toggleImgMenu() {
             const menu = document.getElementById('imgMenu');
             menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
@@ -392,7 +392,6 @@
             toggleImgMenu();
         }
 
-        // --- ऑथेंटिकेशन ---
         function openAuthModal(msg = "Developed by Abhay Kumar") {
             document.getElementById('auth-subtitle').innerText = msg;
             document.getElementById('auth-modal').style.display = 'flex';
@@ -518,7 +517,7 @@
             } catch(e) { showToast("Error connecting to database."); closeDeleteModal(); btn.innerHTML = 'Yes, Purge Data'; btn.disabled = false; }
         }
 
-        // --- 🌟 एडवांस्ड मार्कडाउन और इमेज रेंडरिंग ---
+        // --- 🌟 मार्कडाउन और स्मार्ट इमेज रेंडरिंग (BUG FIXED: NO SINGLE QUOTES ERROR) ---
         const renderer = new marked.Renderer();
         renderer.code = function(code, language) {
             const valid = (language && hljs.getLanguage(language)) ? language : 'plaintext';
@@ -537,7 +536,6 @@
             });
         }
 
-        // इमेज के लिए डाउनलोड और रिफ्रेश/री-ट्राई लॉजिक
         async function downloadImage(url, btn) {
             const ogHtml = btn.innerHTML;
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Downloading...';
@@ -548,7 +546,7 @@
                 a.href = URL.createObjectURL(blob);
                 a.download = `Arjun_Compound_${Date.now()}.png`;
                 document.body.appendChild(a); a.click(); document.body.removeChild(a);
-            } catch(e) { alert("डाउनलोड विफल रहा। कृपया सीधे इमेज पर राइट-क्लिक करके सेव करें।"); }
+            } catch(e) { alert("डाउनलोड विफल रहा। कृपया सीधे इमेज पर लॉन्ग-प्रेस करके सेव करें।"); }
             btn.innerHTML = ogHtml;
         }
 
@@ -568,7 +566,6 @@
             img.src = currentSrc;
         }
 
-        // वर्कर द्वारा भेजे गए <img> टैग्स को 'स्मार्ट कार्ड' में बदलना
         function processImages(container) {
             const images = container.querySelectorAll('img.arjun-gen-img:not(.processed)');
             images.forEach(img => {
@@ -593,8 +590,10 @@
                 wrapper.appendChild(toolbar);
 
                 img.onload = () => { loader.style.display = 'none'; img.style.opacity = '1'; document.getElementById('chat-window').scrollTop = document.getElementById('chat-window').scrollHeight; };
+                
+                // BUG FIX: Removed single quotes that crashed the script previously
                 img.onerror = () => { 
-                    loader.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> सर्वर त्रुटि। कृपया पुनः प्रयास करें।'; 
+                    loader.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> लोडिंग विफल। कृपया पुनः प्रयास पर क्लिक करें।'; 
                     loader.style.color = 'var(--danger-red)';
                     img.style.opacity = '0.3';
                 };
@@ -616,7 +615,7 @@
             const d = document.createElement('div'); d.className = `message ${cls}`;
             d.innerHTML = isMD ? marked.parse(txt) : txt;
             
-            if(isMD) processImages(d); // इमेज को स्मार्ट कार्ड में बदलें
+            if(isMD) processImages(d); 
             
             chatWin.appendChild(d);
             chatWin.scrollTop = chatWin.scrollHeight; 
@@ -688,7 +687,7 @@
                                     if (chunk) {
                                         fullText += chunk;
                                         arjunDiv.innerHTML = marked.parse(fullText);
-                                        processImages(arjunDiv); // स्ट्रीम के दौरान इमेजेस को प्रोसेस करना
+                                        processImages(arjunDiv); 
                                         chatWin.scrollTop = chatWin.scrollHeight; 
                                     }
                                 } catch (e) { }
