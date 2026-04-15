@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Arjun Compound | Peak Evolution</title>
+    <title>Arjun Compound | Premium AI</title>
     
     <!-- प्रीमियम फोंट्स और आइकन्स -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -25,10 +25,11 @@
             --apple-black: #1D1D1F;
             --apple-gray: #86868B;
             --glass-bg: rgba(255, 255, 255, 0.85);
-            --glass-border: rgba(0, 0, 0, 0.06);
+            --glass-border: rgba(0, 0, 0, 0.08);
             --shadow-soft: 0 10px 40px rgba(0, 0, 0, 0.08);
             --danger-red: #FF3B30;
             --success-green: #34C759;
+            --accent-blue: #007AFF;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
@@ -48,7 +49,7 @@
         .toast { background: var(--apple-black); color: var(--pure-white); padding: 14px 28px; border-radius: 100px; font-size: 14px; font-weight: 600; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: slideDownFade 0.4s ease; display: flex; align-items: center; gap: 12px; }
         @keyframes slideDownFade { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- मुख्य ऐप रैपर (100% STRICT FIXED LAYOUT) --- */
+        /* --- मुख्य ऐप रैपर --- */
         .app-wrapper { 
             width: 96%; max-width: 1240px; height: 94vh; 
             background: var(--glass-bg); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); 
@@ -57,24 +58,25 @@
             overflow: hidden; position: relative; 
         }
 
-        #chat-section { display: flex; flex-direction: column; height: 100%; width: 100%; overflow: hidden; }
+        #chat-section { display: flex; flex-direction: column; height: 100%; width: 100%; overflow: hidden; position: relative; }
 
-        /* --- चैट हेडर --- */
+        /* --- चैट हेडर (सुधारित ब्रांडिंग) --- */
         header { 
             flex-shrink: 0; padding: 20px 45px; border-bottom: 1px solid var(--glass-border); 
             display: flex; justify-content: space-between; align-items: center; 
             background: rgba(255,255,255,0.7); backdrop-filter: blur(10px); z-index: 10; 
         }
-        .brand-box h1 { font-size: 26px; font-weight: 800; color: var(--apple-black); display: flex; align-items: center; gap: 12px; letter-spacing: -0.5px; }
-        .brand-box span { font-size: 11px; background: var(--apple-black); color: var(--pure-white); padding: 4px 10px; border-radius: 8px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; }
+        .brand-box h1 { font-size: 28px; font-weight: 800; color: var(--apple-black); display: flex; align-items: center; gap: 12px; letter-spacing: -0.5px; }
+        .brand-box span { font-size: 12px; background: linear-gradient(135deg, var(--apple-black), #333); color: var(--pure-white); padding: 5px 12px; border-radius: 8px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .header-actions { display: flex; align-items: center; gap: 15px; }
         
         .action-btn { background: var(--pure-white); border: 1px solid var(--glass-border); color: var(--apple-black); padding: 10px 20px; border-radius: 14px; cursor: pointer; font-size: 14px; font-weight: 700; transition: 0.2s; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
-        .action-btn:hover { background: #FEE2E2; border-color: var(--danger-red); color: var(--danger-red); transform: translateY(-1px); }
+        .action-btn:hover { background: #f0f0f5; transform: translateY(-1px); }
+        .delete-btn:hover { background: #FEE2E2; border-color: var(--danger-red); color: var(--danger-red); }
         .login-head-btn { background: var(--apple-black); color: var(--pure-white); }
         .login-head-btn:hover { background: #333; color: var(--pure-white); border-color: transparent; }
 
-        /* --- चैट विंडो (केवल यह हिस्सा स्क्रोल होगा) --- */
+        /* --- चैट विंडो --- */
         #chat-window { 
             flex: 1 1 auto; padding: 40px 60px; overflow-y: auto; 
             display: flex; flex-direction: column; gap: 30px; scroll-behavior: smooth; 
@@ -86,7 +88,7 @@
         .user-msg { align-self: flex-end; background: var(--apple-black); color: var(--pure-white); border-bottom-right-radius: 6px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
         .arjun-msg { align-self: flex-start; background: var(--pure-white); color: var(--apple-black); border-bottom-left-radius: 6px; width: 100%; border: 1px solid var(--glass-border); box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
 
-        /* --- पूर्ण मार्कडाउन और मैथ स्टाइल्स (Missing Features Restored) --- */
+        /* --- मार्कडाउन और मैथ --- */
         .arjun-msg p { margin-bottom: 16px; }
         .arjun-msg p:last-child { margin-bottom: 0; }
         .arjun-msg strong { font-weight: 800; color: var(--apple-black); }
@@ -94,7 +96,6 @@
         .arjun-msg li { margin-bottom: 8px; }
         .arjun-msg blockquote { border-left: 4px solid var(--apple-gray); padding-left: 16px; font-style: italic; color: #555; margin: 16px 0; background: rgba(0,0,0,0.02); padding-top: 10px; padding-bottom: 10px; border-radius: 0 8px 8px 0; }
         
-        /* टेबल्स */
         .arjun-msg table { width: 100%; border-collapse: collapse; margin: 20px 0; border: 1px solid var(--glass-border); border-radius: 12px; overflow: hidden; font-size: 15px; }
         .arjun-msg th, .arjun-msg td { padding: 14px 16px; border: 1px solid var(--glass-border); text-align: left; }
         .arjun-msg th { background: rgba(0,0,0,0.04); font-weight: 700; text-transform: uppercase; font-size: 13px; color: var(--apple-black); }
@@ -111,13 +112,69 @@
         .arjun-msg p code { background: rgba(0,0,0,0.05); color: var(--danger-red); padding: 3px 6px; border-radius: 6px; font-family: 'Fira Code', monospace; font-size: 14px; }
         .katex-display { background: rgba(0,0,0,0.02); padding: 16px; border-radius: 12px; margin: 16px 0; overflow-x: auto; }
 
-        /* --- इनपुट एरिया (100% FIXED AT BOTTOM) --- */
+        /* --- डायनेमिक थिंकिंग इंडिकेटर --- */
+        .status-container { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; color: var(--apple-gray); padding: 12px 24px; align-self: flex-start; background: rgba(255,255,255,0.7); backdrop-filter: blur(10px); border-radius: 20px; border: 1px solid var(--glass-border); margin-bottom: 5px; animation: fadeIn 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .spinner { width: 18px; height: 18px; border: 3px solid rgba(0,0,0,0.1); border-top-color: var(--apple-black); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* --- 🌟 नई इमेज रेंडरिंग और कण्ट्रोल सिस्टम --- */
+        .img-showcase { 
+            position: relative; width: 100%; max-width: 550px; margin: 20px 0; 
+            background: #FAFAFA; border: 1px solid var(--glass-border); 
+            border-radius: 24px; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+        }
+        .img-showcase img { 
+            width: 100%; height: auto; display: block; opacity: 0; transition: opacity 0.4s ease; 
+        }
+        .img-loader { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 15px; 
+            font-size: 15px; font-weight: 700; color: var(--apple-gray); background: rgba(250,250,250,0.9); z-index: 2;
+        }
+        .img-loader i { font-size: 24px; color: var(--apple-black); }
+        .img-toolbar { 
+            display: flex; background: var(--pure-white); border-top: 1px solid var(--glass-border); 
+            padding: 12px 15px; gap: 10px; justify-content: space-between; align-items: center;
+        }
+        .img-tool-btn { 
+            flex: 1; padding: 10px; background: rgba(0,0,0,0.04); border: none; border-radius: 12px; 
+            font-size: 13px; font-weight: 700; color: var(--apple-black); cursor: pointer; transition: 0.2s; 
+            display: flex; justify-content: center; align-items: center; gap: 8px;
+        }
+        .img-tool-btn:hover { background: #E5E5EA; transform: translateY(-1px); }
+        .img-tool-btn.dl-btn { background: var(--apple-black); color: white; }
+        .img-tool-btn.dl-btn:hover { background: #333; }
+
+        /* --- इनपुट एरिया --- */
         .input-wrapper { 
-            flex-shrink: 0; padding: 25px 60px; background: rgba(255,255,255,0.85); 
+            position: relative; flex-shrink: 0; padding: 25px 60px; background: rgba(255,255,255,0.85); 
             backdrop-filter: blur(20px); border-top: 1px solid var(--glass-border); 
             display: flex; gap: 16px; align-items: flex-end; z-index: 10; 
         }
         
+        /* शानदार इमेज जनरेशन मेनू */
+        .img-menu { 
+            position: absolute; left: 60px; bottom: 100px; 
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); 
+            padding: 15px; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.15); 
+            border: 1px solid var(--glass-border); display: none; gap: 12px; z-index: 100; 
+            animation: slideUpMsg 0.2s ease; flex-wrap: wrap; max-width: 300px;
+        }
+        .img-cat { 
+            padding: 12px 20px; border-radius: 14px; font-weight: 800; font-size: 13px; flex: 1 1 45%;
+            cursor: pointer; color: white; transition: 0.2s; display: flex; align-items: center; gap: 8px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); justify-content: center; text-align: center;
+        }
+        .img-cat:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+        
+        .cat-logo { background: linear-gradient(135deg, #FF3B30, #FF9500); }
+        .cat-cine { background: linear-gradient(135deg, #007AFF, #5856D6); }
+        .cat-real { background: linear-gradient(135deg, #34C759, #32ADE6); }
+        .cat-anime { background: linear-gradient(135deg, #FF2D55, #AF52DE); }
+
+        .img-btn-circle { background: var(--pure-white); color: var(--apple-black); border: 1px solid var(--glass-border); width: 64px; height: 64px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 20px; transition: 0.2s; flex-shrink: 0; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .img-btn-circle:hover { background: var(--apple-bg); transform: scale(1.05); }
+
         textarea { flex: 1; padding: 18px 24px; border-radius: 24px; border: 1px solid var(--glass-border); background: var(--pure-white); font-size: 16px; outline: none; resize: none; min-height: 64px; max-height: 150px; transition: 0.2s; line-height: 1.5; box-shadow: 0 2px 15px rgba(0,0,0,0.02); }
         textarea:focus { border-color: var(--apple-black); box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
         
@@ -125,21 +182,19 @@
         .action-btn-circle:hover { transform: scale(1.05); }
         .action-btn-circle:disabled { background: #D2D2D7; cursor: not-allowed; transform: none; box-shadow: none; }
         
-        /* लाल स्टॉप बटन */
         .stop-btn { background: var(--danger-red); border-radius: 16px; display: none; }
         .stop-btn:hover { background: #D32F2F; box-shadow: 0 8px 20px rgba(255, 59, 48, 0.3); }
 
-        /* --- मोडल ओवरलेज़ (Auth & Delete) --- */
+        /* --- ऑथ और डिलीट मोडल --- */
         .modal-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.85); backdrop-filter: blur(20px); z-index: 5000; display: none; justify-content: center; align-items: center; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         
-        .modal-card { background: var(--pure-white); padding: 45px; border-radius: 36px; width: 100%; max-width: 480px; border: 1px solid var(--glass-border); box-shadow: 0 30px 60px rgba(0,0,0,0.1); position: relative; display: flex; flex-direction: column; overflow: hidden; }
-        .auth-card { min-height: 450px; } /* Auth card specific height */
+        .modal-card { background: var(--pure-white); padding: 45px; border-radius: 36px; width: 100%; max-width: 480px; border: 1px solid var(--glass-border); box-shadow: 0 30px 60px rgba(0,0,0,0.1); position: relative; display: flex; flex-direction: column; overflow: hidden; margin: 20px; }
+        .auth-card { min-height: 450px; }
         
         .close-modal { position: absolute; top: 24px; right: 24px; background: none; border: none; font-size: 22px; color: var(--apple-gray); cursor: pointer; transition: 0.2s; }
         .close-modal:hover { color: var(--apple-black); transform: rotate(90deg); }
 
-        /* Auth Specifics */
         .auth-header { text-align: center; margin-bottom: 30px; transition: 0.3s; }
         .auth-header h2 { font-size: 32px; font-weight: 800; color: var(--apple-black); letter-spacing: -0.5px; }
         .auth-header p { font-size: 15px; color: var(--apple-gray); margin-top: 6px; font-weight: 600; }
@@ -169,14 +224,27 @@
         .success-step h3 { color: var(--apple-black); font-size: 28px; font-weight: 800; }
         @keyframes popIn { 0% { transform: scale(0); } 100% { transform: scale(1); } }
 
-        /* --- कस्टम डिलीट मोडल --- */
         .delete-content { text-align: center; }
         .delete-content i { font-size: 50px; color: var(--danger-red); margin-bottom: 20px; }
         .delete-content h3 { font-size: 24px; font-weight: 800; color: var(--apple-black); margin-bottom: 10px; }
         .delete-content p { font-size: 15px; color: var(--apple-gray); margin-bottom: 25px; line-height: 1.5; }
-        .delete-actions { display: flex; gap: 15px; }
+        .delete-actions { display: flex; gap: 15px; flex-wrap: wrap; }
 
-        /* स्क्रॉलबार */
+        /* --- 📱 परफेक्ट रेस्पॉन्सिव डिज़ाइन (Mobile, Tablet, Desktop) --- */
+        @media (max-width: 768px) {
+            .app-wrapper { width: 100%; height: 100vh; border-radius: 0; border: none; }
+            header { padding: 15px 20px; }
+            .brand-box h1 { font-size: 22px; }
+            #chat-window { padding: 20px 15px; gap: 20px; }
+            .message { max-width: 95%; padding: 18px 20px; font-size: 15px; }
+            .input-wrapper { padding: 15px; gap: 10px; flex-wrap: wrap; justify-content: space-between; }
+            textarea { min-height: 50px; width: 100%; flex: none; order: -1; margin-bottom: 10px; }
+            .img-btn-circle, .action-btn-circle { width: 50px; height: 50px; font-size: 16px; }
+            .img-menu { left: 15px; bottom: 140px; width: 90%; flex-direction: column; }
+            .img-cat { width: 100%; }
+            .modal-card { padding: 30px 20px; }
+        }
+
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-thumb { background: #D2D2D7; border-radius: 10px; }
         ::-webkit-scrollbar-track { background: transparent; }
@@ -188,7 +256,6 @@
 
     <div class="app-wrapper">
         
-        <!-- मुख्य चैट इंटरफ़ेस -->
         <div id="chat-section">
             <header>
                 <div class="brand-box"><h1>ARJUN <span>COMPOUND</span></h1></div>
@@ -200,13 +267,21 @@
             <div id="chat-window"></div>
 
             <div class="input-wrapper">
-                <textarea id="userInput" placeholder="Ask Arjun Compound... (Shift + Enter for new line)" rows="1"></textarea>
+                <div class="img-menu" id="imgMenu">
+                    <div class="img-cat cat-logo" onclick="selectImgCat('Professional Text Logo')"><i class="fa-solid fa-pen-nib"></i> Logo</div>
+                    <div class="img-cat cat-cine" onclick="selectImgCat('Cinematic Photography')"><i class="fa-solid fa-film"></i> Cinematic</div>
+                    <div class="img-cat cat-real" onclick="selectImgCat('Ultra Realistic')"><i class="fa-solid fa-camera"></i> Realism</div>
+                    <div class="img-cat cat-anime" onclick="selectImgCat('Japanese Anime Style')"><i class="fa-solid fa-paintbrush"></i> Anime</div>
+                </div>
+
+                <button class="img-btn-circle" id="imgBtn" onclick="toggleImgMenu()" title="Create Image"><i class="fa-solid fa-image"></i></button>
+                <textarea id="userInput" placeholder="मुझसे कुछ भी पूछें, या चित्र बनाने को कहें... (Shift + Enter for new line)" rows="1"></textarea>
                 <button class="action-btn-circle" id="sendBtn" onclick="sendChat()"><i class="fa-solid fa-arrow-up"></i></button>
                 <button class="action-btn-circle stop-btn" id="stopBtn" onclick="stopChat()"><i class="fa-solid fa-square"></i></button>
             </div>
         </div>
 
-        <!-- ऑथेंटिकेशन मोडल -->
+        <!-- ऑथेंटिकेशन मोडल (Intact 6-Layer) -->
         <div id="auth-modal" class="modal-overlay">
             <div class="modal-card auth-card">
                 <button class="close-modal" onclick="closeAuthModal()"><i class="fa-solid fa-xmark"></i></button>
@@ -220,7 +295,6 @@
                     <div class="auth-tab" id="tab-register" onclick="switchTab('register')">Register</div>
                 </div>
 
-                <!-- 6-LAYER REGISTRATION -->
                 <div id="form-register" class="form-container" style="display: none;">
                     <div class="reg-step active" id="step-1">
                         <div class="step-title">What's your full name?</div>
@@ -256,7 +330,6 @@
                     </div>
                 </div>
 
-                <!-- 2-LAYER LOGIN -->
                 <div id="form-login" class="form-container">
                     <div class="reg-step active" id="login-step-1">
                         <div class="step-title">Welcome Back</div>
@@ -273,7 +346,7 @@
             </div>
         </div>
 
-        <!-- कस्टम डिलीट मोडल (Custom Delete Prompt) -->
+        <!-- कस्टम डिलीट मोडल -->
         <div id="delete-modal" class="modal-overlay">
             <div class="modal-card">
                 <button class="close-modal" onclick="closeDeleteModal()"><i class="fa-solid fa-xmark"></i></button>
@@ -282,8 +355,8 @@
                     <h3>Clear History?</h3>
                     <p>Are you sure you want to permanently delete all your secure chat history? This action will instantly refresh the session.</p>
                     <div class="delete-actions">
-                        <button class="secondary-btn" onclick="closeDeleteModal()" style="margin-top:0;">Cancel</button>
-                        <button class="primary-btn" id="confirmDeleteBtn" onclick="confirmPurgeHistory()" style="background: var(--danger-red); margin-top:0;">Yes, Purge Data</button>
+                        <button class="secondary-btn" onclick="closeDeleteModal()" style="margin-top:0; flex:1;">Cancel</button>
+                        <button class="primary-btn" id="confirmDeleteBtn" onclick="confirmPurgeHistory()" style="background: var(--danger-red); margin-top:0; flex:1;">Yes, Purge Data</button>
                     </div>
                 </div>
             </div>
@@ -292,7 +365,6 @@
     </div>
 
     <script>
-        // --- 1. कॉन्फ़िगरेशन ---
         const GAS_URL = "https://script.google.com/macros/s/AKfycbzTsXGoVh97JjtFAAG825GF4WUZqf7FDB3Zbxyf0nrLXt_1HjJSSqA829UcdoamRPvg0A/exec";
         const WORKER_URL = "https://super-dawn-eddc.div665742.workers.dev/";
         
@@ -301,7 +373,6 @@
         let guestChatsCount = parseInt(localStorage.getItem('guest_count') || '0');
         let abortController = null;
 
-        // --- 2. यूटिलिटी फंक्शन्स ---
         function showToast(msg) {
             const container = document.getElementById('toast-container');
             const t = document.createElement('div'); t.className = 'toast';
@@ -309,7 +380,19 @@
             container.appendChild(t); setTimeout(() => t.remove(), 3000);
         }
 
-        // --- 3. ऑथेंटिकेशन लॉजिक ---
+        // --- इमेज मेनू लॉजिक ---
+        function toggleImgMenu() {
+            const menu = document.getElementById('imgMenu');
+            menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+        }
+        function selectImgCat(style) {
+            const input = document.getElementById('userInput');
+            input.value = `मुझे [${style}] स्टाइल में एक चित्र बना कर दो: `;
+            input.focus();
+            toggleImgMenu();
+        }
+
+        // --- ऑथेंटिकेशन ---
         function openAuthModal(msg = "Developed by Abhay Kumar") {
             document.getElementById('auth-subtitle').innerText = msg;
             document.getElementById('auth-modal').style.display = 'flex';
@@ -383,12 +466,11 @@
 
         function logout() { localStorage.removeItem('arjun_user'); location.reload(); }
 
-        // --- 4. इनिशियलाइजेशन ---
         window.onload = () => {
             updateHeader();
             if (currentUser) { loadHistory(); } 
             else { 
-                const welcome = `**नमस्ते दिव्य जी!** I am Arjun Compound.\n\nDeveloped by **Abhay Kumar**, I am your peak support system. You are in **Guest Mode** (${3 - guestChatsCount} questions remaining). Log in to unlock unlimited access.`;
+                const welcome = `**प्रणाम दिव्य जी!**\n\nमैं आपका अपना **अर्जुन कंपाउंड** हूँ। अभय कुमार जी द्वारा विकसित, मैं आपके सभी सवालों के जवाब देने, कोड लिखने और शानदार चित्र बनाने के लिए तैयार हूँ। आप अभी **अतिथि (Guest) मोड** में हैं (${3 - guestChatsCount} प्रश्न शेष)। असीमित एक्सेस के लिए कृपया लॉगिन करें।`;
                 renderMsg(welcome, 'arjun-msg', true);
             }
         };
@@ -397,12 +479,12 @@
             const h = document.getElementById('header-actions');
             if(currentUser) {
                 h.innerHTML = `
-                    <span style="font-weight:700; font-size:13px; color:var(--apple-gray);"><i class="fa-solid fa-user-check"></i> ${currentUser}</span>
-                    <button class="action-btn" onclick="openDeleteModal()"><i class="fa-solid fa-trash"></i></button>
+                    <span style="font-weight:700; font-size:13px; color:var(--apple-gray); display:flex; align-items:center; gap:5px;"><i class="fa-solid fa-user-check"></i> ${currentUser.split('@')[0]}</span>
+                    <button class="action-btn delete-btn" onclick="openDeleteModal()"><i class="fa-solid fa-trash"></i></button>
                     <button class="action-btn" onclick="logout()"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
                 `;
             } else {
-                h.innerHTML = `<button class="action-btn login-head-btn" onclick="openAuthModal()"><i class="fa-solid fa-user-lock"></i> Login / Register</button>`;
+                h.innerHTML = `<button class="action-btn login-head-btn" onclick="openAuthModal()"><i class="fa-solid fa-user-lock"></i> Login</button>`;
             }
         }
 
@@ -417,13 +499,12 @@
                     sessionHistory = JSON.parse(data.historyJSON);
                     sessionHistory.forEach(m => renderMsg(m.content, m.role === 'user' ? 'user-msg' : 'arjun-msg', m.role !== 'user'));
                 } else {
-                    const welcome = `**Hey brother!** I'm Arjun Compound. Secure environment verified for **${currentUser}**.\n\nDeveloped by **Abhay Kumar**, I am fully equipped with advanced math and code rendering. Let's begin.`;
+                    const welcome = `**प्रणाम दिव्य जी!**\n\nअर्जुन कंपाउंड में आपका स्वागत है। सुरक्षित कनेक्शन स्थापित हो गया है। आज मैं आपकी क्या सहायता कर सकता हूँ?`;
                     sessionHistory.push({role: 'arjun', content: welcome}); renderMsg(welcome, 'arjun-msg', true);
                 }
             } catch(e) { chatWin.innerHTML = ''; renderMsg("Error loading history.", 'arjun-msg', false); }
         }
 
-        // --- कस्टम डिलीट मोडल लॉजिक (Custom Delete Logic) ---
         function openDeleteModal() { document.getElementById('delete-modal').style.display = 'flex'; }
         function closeDeleteModal() { document.getElementById('delete-modal').style.display = 'none'; }
 
@@ -433,25 +514,18 @@
             btn.disabled = true;
             try {
                 await fetch(GAS_URL, { method: 'POST', body: JSON.stringify({ action: "delete_history", email: currentUser }) });
-                // पेज को तुरंत रिफ्रेश करना (Instant Refresh)
                 location.reload(); 
-            } catch(e) {
-                showToast("Error connecting to database.");
-                closeDeleteModal();
-                btn.innerHTML = 'Yes, Purge Data';
-                btn.disabled = false;
-            }
+            } catch(e) { showToast("Error connecting to database."); closeDeleteModal(); btn.innerHTML = 'Yes, Purge Data'; btn.disabled = false; }
         }
 
-        // --- 5. फुल-फीचर मार्कडाउन और मैथ इंजन (KaTeX + GFM) ---
+        // --- 🌟 एडवांस्ड मार्कडाउन और इमेज रेंडरिंग ---
         const renderer = new marked.Renderer();
         renderer.code = function(code, language) {
             const valid = (language && hljs.getLanguage(language)) ? language : 'plaintext';
             const highlighted = hljs.highlight(code, { language: valid }).value;
             const safeCode = encodeURIComponent(code); 
-            return `<div class="code-container"><div class="code-header"><div><span class="mac-dot red"></span><span class="mac-dot yellow"></span><span class="mac-dot green"></span></div><button class="copy-btn" data-code="${safeCode}" onclick="copyC(this)">Copy Code</button></div><pre><code class="hljs ${valid}">${highlighted}</code></pre></div>`;
+            return `<div class="code-container"><div class="code-header"><div><span class="mac-dot" style="background:#FF5F59"></span><span class="mac-dot" style="background:#FFBD2E"></span><span class="mac-dot" style="background:#28C940"></span></div><button class="copy-btn" data-code="${safeCode}" onclick="copyC(this)">Copy Code</button></div><pre><code class="hljs ${valid}">${highlighted}</code></pre></div>`;
         };
-        // breaks और gfm को true किया गया है ताकि टेबल्स और लिस्ट्स सही से काम करें
         marked.use({ renderer, breaks: true, gfm: true }); 
         marked.use(window.markedKatex({ throwOnError: false, displayMode: true }));
 
@@ -463,7 +537,70 @@
             });
         }
 
-        // --- 6. बुलेटप्रूफ स्ट्रीमिंग और ऑटो-स्क्रोल (ULTRA-FAST PARSER) ---
+        // इमेज के लिए डाउनलोड और रिफ्रेश/री-ट्राई लॉजिक
+        async function downloadImage(url, btn) {
+            const ogHtml = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Downloading...';
+            try {
+                const res = await fetch(url);
+                const blob = await res.blob();
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = `Arjun_Compound_${Date.now()}.png`;
+                document.body.appendChild(a); a.click(); document.body.removeChild(a);
+            } catch(e) { alert("डाउनलोड विफल रहा। कृपया सीधे इमेज पर राइट-क्लिक करके सेव करें।"); }
+            btn.innerHTML = ogHtml;
+        }
+
+        function refreshImage(btn) {
+            const wrapper = btn.closest('.img-showcase');
+            const img = wrapper.querySelector('img');
+            const loader = wrapper.querySelector('.img-loader');
+            
+            loader.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> पुनः लोड हो रहा है...';
+            loader.style.color = 'var(--apple-gray)';
+            loader.style.display = 'flex';
+            img.style.opacity = '0.3';
+
+            let currentSrc = img.src;
+            if(currentSrc.includes('&cb=')) currentSrc = currentSrc.replace(/&cb=\d+/, '&cb=' + Date.now());
+            else currentSrc += '&cb=' + Date.now();
+            img.src = currentSrc;
+        }
+
+        // वर्कर द्वारा भेजे गए <img> टैग्स को 'स्मार्ट कार्ड' में बदलना
+        function processImages(container) {
+            const images = container.querySelectorAll('img.arjun-gen-img:not(.processed)');
+            images.forEach(img => {
+                img.classList.add('processed');
+                
+                const wrapper = document.createElement('div');
+                wrapper.className = 'img-showcase';
+                img.parentNode.insertBefore(wrapper, img);
+                wrapper.appendChild(img);
+
+                const loader = document.createElement('div');
+                loader.className = 'img-loader';
+                loader.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> तस्वीर तैयार हो रही है...';
+                wrapper.appendChild(loader);
+
+                const toolbar = document.createElement('div');
+                toolbar.className = 'img-toolbar';
+                toolbar.innerHTML = `
+                    <button class="img-tool-btn dl-btn" onclick="downloadImage('${img.src}', this)"><i class="fa-solid fa-download"></i> डाउनलोड</button>
+                    <button class="img-tool-btn" onclick="refreshImage(this)"><i class="fa-solid fa-arrows-rotate"></i> पुनः प्रयास (Retry)</button>
+                `;
+                wrapper.appendChild(toolbar);
+
+                img.onload = () => { loader.style.display = 'none'; img.style.opacity = '1'; document.getElementById('chat-window').scrollTop = document.getElementById('chat-window').scrollHeight; };
+                img.onerror = () => { 
+                    loader.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> सर्वर त्रुटि। कृपया पुनः प्रयास करें।'; 
+                    loader.style.color = 'var(--danger-red)';
+                    img.style.opacity = '0.3';
+                };
+            });
+        }
+
         const chatWin = document.getElementById('chat-window');
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
@@ -478,8 +615,11 @@
         function renderMsg(txt, cls, isMD) {
             const d = document.createElement('div'); d.className = `message ${cls}`;
             d.innerHTML = isMD ? marked.parse(txt) : txt;
+            
+            if(isMD) processImages(d); // इमेज को स्मार्ट कार्ड में बदलें
+            
             chatWin.appendChild(d);
-            chatWin.scrollTop = chatWin.scrollHeight; // ऑटो-स्क्रोल
+            chatWin.scrollTop = chatWin.scrollHeight; 
             return d;
         }
 
@@ -492,7 +632,6 @@
             const p = userInput.value.trim();
             if (!p) return;
 
-            // Guest Logic
             if (!currentUser) {
                 if (guestChatsCount >= 3) { openAuthModal("Guest limit reached. Please Login or Register to continue."); return; }
                 guestChatsCount++; localStorage.setItem('guest_count', guestChatsCount.toString());
@@ -503,24 +642,25 @@
             
             userInput.value = ''; userInput.style.height = 'auto'; userInput.disabled = true;
             sendBtn.style.display = 'none'; stopBtn.style.display = 'flex';
+            document.getElementById('imgMenu').style.display = 'none';
             
-            const arjunDiv = renderMsg('Thinking...', 'arjun-msg', false);
-            let fullText = "";
+            const isImageReq = /चित्र|तस्वीर|फोटो|लोगो|इमेज|बनाओ|image|photo|draw|logo|generate/i.test(p);
+            const statusMsg = isImageReq ? "अर्जुन तस्वीर का निर्माण कर रहे हैं..." : "अर्जुन सोच रहे हैं...";
+            const statusDiv = document.createElement('div');
+            statusDiv.className = 'status-container';
+            statusDiv.innerHTML = `<div class="spinner"></div><span>${statusMsg}</span>`;
+            chatWin.appendChild(statusDiv);
+            chatWin.scrollTop = chatWin.scrollHeight;
 
+            const arjunDiv = renderMsg('', 'arjun-msg', false);
+            let fullText = "";
             abortController = new AbortController();
 
             try {
-                // वर्कर को हिस्ट्री और प्रॉम्प्ट भेजना
-                const mappedHistory = sessionHistory.slice(0, -1).map(msg => ({
-                    role: msg.role === 'arjun' ? 'assistant' : 'user',
-                    content: msg.content
-                }));
-
-                const res = await fetch(WORKER_URL, { 
-                    method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ prompt: p, history: mappedHistory }), signal: abortController.signal
-                });
-
+                const mappedHistory = sessionHistory.slice(0, -1).map(msg => ({ role: msg.role === 'arjun' ? 'assistant' : 'user', content: msg.content }));
+                const res = await fetch(WORKER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ prompt: p, history: mappedHistory }), signal: abortController.signal });
+                
+                statusDiv.remove(); 
                 if(!res.ok) throw new Error("Worker connection failed.");
                 
                 const reader = res.body.getReader();
@@ -537,10 +677,7 @@
 
                     for (let l of lines) {
                         l = l.trim();
-                        if (!l) continue;
-                        
-                        // रॉ कमेंट्स को रोकें
-                        if (l.startsWith(':')) continue; 
+                        if (!l || l.startsWith(':')) continue; 
                         
                         if (l.startsWith('data: ') && !l.includes('[DONE]')) {
                             const payloadStr = l.slice(6).trim();
@@ -550,11 +687,11 @@
                                     const chunk = dataObj.choices[0]?.delta?.content || "";
                                     if (chunk) {
                                         fullText += chunk;
-                                        // डायरेक्ट रेंडरिंग और निरंतर स्क्रोलिंग
                                         arjunDiv.innerHTML = marked.parse(fullText);
+                                        processImages(arjunDiv); // स्ट्रीम के दौरान इमेजेस को प्रोसेस करना
                                         chatWin.scrollTop = chatWin.scrollHeight; 
                                     }
-                                } catch (e) { /* Silently ignore broken JSON chunks */ }
+                                } catch (e) { }
                             }
                         }
                     }
@@ -566,7 +703,8 @@
                 }
 
             } catch (e) { 
-                if(e.name === 'AbortError') arjunDiv.innerHTML += "<br><br><em>[Generation Stopped by User]</em>";
+                statusDiv.remove();
+                if(e.name === 'AbortError') arjunDiv.innerHTML += "<br><br><em>[प्रक्रिया रोक दी गई]</em>";
                 else arjunDiv.innerHTML = "<strong>Protocol Error:</strong> Connection Failed. Please check backend."; 
             }
             finally { 
